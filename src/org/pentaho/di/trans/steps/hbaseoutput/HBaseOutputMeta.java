@@ -247,7 +247,8 @@ public class HBaseOutputMeta extends BaseStepMeta implements StepMetaInterface {
       if ( entrynode != null ) {
         setClusterName( XMLHandler.getTagValue( entrynode, "cluster_name" ) ); //$NON-NLS-1$
       } else if ( rep != null ) {
-        setClusterName( rep.getJobEntryAttributeString( id_jobentry, "cluster_name" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+    	  setClusterName( rep.getStepAttributeString(id_jobentry, "cluster_name") );
+//        setClusterName( rep.getJobEntryAttributeString( id_jobentry, "cluster_name" ) ); //$NON-NLS-1$ //$NON-NLS-2$
       } 
 
       // load from system first, then fall back to copy stored with job (AbstractMeta)
@@ -381,7 +382,8 @@ public class HBaseOutputMeta extends BaseStepMeta implements StepMetaInterface {
   }
 
   public void saveRep( Repository rep, ObjectId id_transformation, ObjectId id_step ) throws KettleException {
-    rep.saveStepAttribute( id_transformation, getObjectId(), "cluster_name", clusterName ); //$NON-NLS-1$
+	rep.saveStepAttribute( id_transformation, id_step, "cluster_name", clusterName );
+//    rep.saveStepAttribute( id_transformation, getObjectId(), "cluster_name", clusterName ); //$NON-NLS-1$
     try {
       if ( !StringUtils.isEmpty( getClusterName() ) && 
         NamedClusterManager.getInstance().contains( getClusterName(), rep.getMetaStore() ) ) {
